@@ -1,4 +1,4 @@
-function P=ant(Temp)
+function pressure=Antione(Temp)
     table=[
         %0.0 0.0012 0.0000 0.0883; 
         10. 0.0025 0.0001 0.1549
@@ -30,13 +30,17 @@ function P=ant(Temp)
     %Tabulates each pressure for different species from list
     SpecA=table(:,2); SpecB=table(:,3); SpecC=table(:,4);
     
-
-    for i=1:length(T)
-        Z(i,:)=[1, 1/T(i), -log10(SpecA(i))/T(i)];
-    end   
+    Z=[ones(length(T), 1), 1./T, -log10(SpecA)./T];
 
     A=(Z'*Z)\(Z'*log10(SpecA));
     a=A(1); c=A(3); b=a*c-A(2);
 
-    P=10^(a-b/(Temp+c));
+    P=@(t)10.^(a-b./(t+c));
+    pressure=P(Temp);
+    plot(T,SpecA, "Color","b","LineWidth", 1)
+    hold on
+    plot(T,P(T), "Color", "r", "LineWidth", 1)
+    scatter(Temp, pressure)
+    hold off
+
 end
