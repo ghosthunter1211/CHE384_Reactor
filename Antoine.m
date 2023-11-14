@@ -1,4 +1,8 @@
-function pressure=Antoine(Temp, Species)
+function [pressure, antConst]=Antoine(Temp, Species)
+    if nargin < 2
+        Species=1;
+    end
+    
     table=[
         %0.0 0.0012 0.0000 0.0883; 
         10. 0.0025 0.0001 0.1549
@@ -47,4 +51,6 @@ function pressure=Antoine(Temp, Species)
     plot(T,P(T), "Color", "r", "LineWidth", 1)
     scatter(Temp, pressure)
     hold off
+
+    antConst=[a,b,c];
 end
