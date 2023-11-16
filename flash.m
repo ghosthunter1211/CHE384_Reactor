@@ -36,7 +36,7 @@ function [x,y] = flash(z, T)
             %Beta estimation
             Beta=root_finding(z,K);
             x(spec)=z(spec)/(1+Beta*(K(spec)-1));
-            y(spec)=1-x(spec);
+            y(spec)=K(spec)*x(spec);
         end
     end
 end
