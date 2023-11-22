@@ -46,11 +46,11 @@ function [pressure, antConst]=Antoine(Temp, Species)
 
     P=@(t)10.^(a-b./(t+c));
     pressure=P(Temp);
-    plot(T, Species, "Color","b","LineWidth", 1)
-    hold on
-    plot(T,P(T), "Color", "r", "LineWidth", 1)
-    scatter(Temp, pressure)
-    hold off
+%     plot(T, Species, "Color","b","LineWidth", 1)
+%     hold on
+%     plot(T,P(T), "Color", "r", "LineWidth", 1)
+%     scatter(Temp, pressure)
+%     hold off
 
     antConst=[a,b,c];
 end
