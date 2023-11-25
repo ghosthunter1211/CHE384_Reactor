@@ -13,18 +13,17 @@ function [M3, M6] = composite(z1, mIN, T)
     for step=1:Iter
         %Unit 1 flash
         z1=(z1*mIN + x4*M4 + y7*M7)/(mIN+M4+M7);
-        M1=mIN;
 
-        [x5, y2, M5, M2] = flash(z1, M1, T(1));  %initial flash unit
+        [x5, y2, M5, M2] = flash(z1, mIN, T(1));  %initial flash unit
         [x4, y3, M4, M3] = flash(y2, M2, T(2)); %gas flash unit 2
         [x6, y7, M6, M7] = flash(x5, M5, T(3)); %liquid flash unit 3
         
         
         Masses(step, :)=[M3, M4, M6, M7];
 
-        if z1*M1==(y3*M3+x6*M6)
-            disp("CONVERGED")
-        end
+%         if z1*M1==(y3*M3+x6*M6)
+%             disp("CONVERGED")
+%         end
     end    
     
     plot(1:length(Masses(:,1)), Masses(:,1))
@@ -37,6 +36,4 @@ function [M3, M6] = composite(z1, mIN, T)
     xlim([0, Iter])
     ylim([0, 20])
     hold off
-
-    disp(Masses)
 end
