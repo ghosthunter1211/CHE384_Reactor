@@ -1,11 +1,13 @@
-function [pressure, antConst]=Antoine(Temp, Species)
+function [pressure, antConst]=Antoine(Temp, Species, display)
     if nargin < 2
         Species=1;
+    elseif nargin == 2
+        display=false;
     end
+
     
     table=[
-        %0.0 0.0012 0.0000 0.0883; 
-        10. 0.0025 0.0001 0.1549
+        10. 0.0025 0.0001 0.1549;
         20. 0.0046 0.0003 0.2317;
         30. 0.0083 0.0007 0.3565;
         40. 0.0155 0.0016 0.5603;
@@ -20,10 +22,10 @@ function [pressure, antConst]=Antoine(Temp, Species)
         130 0.5129 0.1944 7.8993;
         140 0.7275 0.2781 9.0558;
         150 0.9483 0.3653 11.4287;
-        160 1.2168 0.5049 13.8756
-        170 1.5846 0.6846 17.2175
-        180 1.9935 0.9785 20.3455
-        190 2.5033 1.2999 24.5083
+        160 1.2168 0.5049 13.8756;
+        170 1.5846 0.6846 17.2175;
+        180 1.9935 0.9785 20.3455;
+        190 2.5033 1.2999 24.5083;
         200 2.9401 1.6368 27.5756];
 
     Z=zeros(height(table), 3);
@@ -36,8 +38,9 @@ function [pressure, antConst]=Antoine(Temp, Species)
     Spec=[SpecA, SpecB, SpecC];
     
     Species=Spec(:,Species);
-
+    
     Z=[ones(length(T), 1), 1./T, -log10(Species)./T];
+    %A=(Z'Z)*(Z'*x)'
     A=(Z'*Z)\(Z'*log10(Species));
     
     a=A(1); 
@@ -46,11 +49,15 @@ function [pressure, antConst]=Antoine(Temp, Species)
 
     P=@(t)10.^(a-b./(t+c));
     pressure=P(Temp);
-%     plot(T, Species, "Color","b","LineWidth", 1)
-%     hold on
-%     plot(T,P(T), "Color", "r", "LineWidth", 1)
-%     scatter(Temp, pressure)
-%     hold off
+    
+    if display == true
+        plot(T, Species, "Color","b","LineWidth", 1)
+        hold on
+        plot(T,P(T), "Color", "r", "LineWidth", 1)
+        scatter(Temp, pressure, 'filled', 'black')
+        legend('Actual', 'Predicted', 'Prediction')
+        hold off
+    end
 
     antConst=[a,b,c];
 end

@@ -1,4 +1,4 @@
-function [M3, M6] = composite(z1, mIN, T)
+function [y3, x6, M3, M6] = composite(z1, mIN, T)
     if nargin < 3
         format_spec = 'Error in composite function. Expected three input arguements, and %d was given';
         sprintf(format_spec, nargin)
