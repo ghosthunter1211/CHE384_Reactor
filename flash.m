@@ -8,14 +8,13 @@ function [x,y,mL,mG] = flash(z, mI, T)
     x=zeros(1,3);
     y=x;
 
+    %Partial pressure of each species
     for species=1:3
-        %K=Partial pressure
         K(species)=Antoine(T, species);
     end
 
 
     %Determine if the system is below or above Bubble/Dew point
-
     Dew=sum(z./K); Bubble=sum(z.*K);
     if Dew<=1
         Dew=true;
@@ -73,6 +72,8 @@ function Beta=root_finding(z,K)
     err_max=0.000001;
     step=0;
 
+%   BISECTION SEARCH METHOD
+%---------------------------------------------------------------------
     while run
         step=step+1;
         c=((b-a)/2)+a;
@@ -99,7 +100,9 @@ function Beta=root_finding(z,K)
         end
     end
 % 
-%     %false position method
+%     FALSE POSITION METHOD: UNCOMMENT TO USE INSTEAD OF BISECTION SEARCH
+%------------------------------------------------------------------------
+
 %     run=true;
 %     up=1; low=0; 
 %     while run == true

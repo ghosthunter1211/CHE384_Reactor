@@ -6,14 +6,15 @@ function [mTot, z] = reactor(z, V, T)
     v = .5;             %Velocity
     A = 1.0686*10^13;   %pre-exponential factor
     Ca1=0.2;            %initial concentration of A
-    %V=50;               %Volumetric flow rate (L/s)
+    %V=50;              %Volumetric flow rate (L/s)
     step=0;
-    
-    %Variables
     L=100;              %Length of the rod
     inc=0.1;            %increment amount
-    T=T+273;            %Temp from Celcius to Kelvin
+    
 
+
+    %Variables
+    T=T+273;                    %Temp from Celcius to Kelvin
     mTot=(z(1)/(Ca1*V))^-1;     %Calculates total mols in system
     mBC=0.5*(mTot - Ca1*V);     %Calculates mols of B/C components
     Cb1=mBC/V; Cc1=mBC/V;       %Calculates the concentration of B/C components
@@ -36,7 +37,7 @@ function [mTot, z] = reactor(z, V, T)
         Cb1=C2(step, 2);
         Cc1=C2(step, 3);
     end
-    
+
     plot(0:inc:L, C2(:, 1));
     hold on
     plot(0:inc:L, C2(:, 2));

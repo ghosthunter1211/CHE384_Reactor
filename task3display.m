@@ -26,5 +26,3 @@ for Temp=1:size(T, 1)
 end
 
 TAB=table(Tstack', Cstack', mL, mG);
-
-plot()
