@@ -14,10 +14,12 @@ function [mTot, z] = reactor(z, V, T)
 
 
     %Variables
-    T=T+273;                    %Temp from Celcius to Kelvin
-    mTot=(z(1)/(Ca1*V))^-1;     %Calculates total mols in system
-    mBC=0.5*(mTot - Ca1*V);     %Calculates mols of B/C components
-    Cb1=mBC/V; Cc1=mBC/V;       %Calculates the concentration of B/C components
+    T=T+273;                     %Temp from Celcius to Kelvin
+    mA=Ca1*V;
+    mTot=mA/z(1);                %Calculates total mols in system
+    %mTot=(z(1)/(Ca1*V))^-1;     %Calculates total mols in system
+    mBC=0.5*(mTot - mA);         %Calculates mols of B/C components
+    Cb1=mBC/V; Cc1=mBC/V;        %Calculates the concentration of B/C components
     
     %Euler function for first concentration equation for species A
     Ca=@(Ca1)((-1/v)*(Ca1^0.5)*A*exp(-Ea/(R*T)));

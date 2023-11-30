@@ -13,18 +13,25 @@ function [x,y,mL,mG] = flash(z, mI, T)
         K(species)=Antoine(T, species);
     end
 
+    %Checks to ensure that Bubble and Dew root finding methods are working
+    DD=sum(z./K); BB=sum(z.*K);
 
-    %Determine if the system is below or above Bubble/Dew point
-    Dew=sum(z./K); Bubble=sum(z.*K);
-    if Dew<=1
+    %Root finding method that determines Dew/Bubble point temperature
+    D=@(z,K)(sum(z./K)-1);
+    B=@(z,K)(sum(z.*K)-1);
+%     Dew=DewBub(z,D);
+%     Bubble=DewBub(z,B);
+
+    if DD<1
         Dew=true;
-    elseif Bubble<=1
+        Bubble=false;
+    elseif BB<1
         Bubble=true;
+        Dew=false;
     else
         Dew=false; Bubble=false;
         %Perform root finding to calculate Beta
     end
-
 
     for spec=1:3
         if Bubble==true
@@ -63,7 +70,6 @@ function [x,y,mL,mG] = flash(z, mI, T)
     end
 end
 
-
 function Beta=root_finding(z,K)
     f=@(B)(z(1)*(K(1)-1))/(1+B*(K(1)-1))+(z(2)*(K(2)-1))/(1+B*(K(2)-1))+(z(3)*(K(3)-1))/(1+B*(K(3)-1));
 
@@ -99,31 +105,6 @@ function Beta=root_finding(z,K)
             run=false;
         end
     end
-% 
-%     FALSE POSITION METHOD: UNCOMMENT TO USE INSTEAD OF BISECTION SEARCH
-%------------------------------------------------------------------------
-
-%     run=true;
-%     up=1; low=0; 
-%     while run == true
-% 
-%         xr=up -(f(up)*(low-up))/(f(low)-f(up));
-% 
-%         err = abs((xr-up)/xr);
-%         if err <= 0.00000000001
-%             Beta_opt=xr;
-%             break
-%         end
-%         
-%         %switches whatever boundary condition is the same sign
-%         if f(xr)*f(up) > 0
-%             up=xr;
-%         elseif f(xr)*f(low) > 0
-%             low=xr;
-%         else
-%             disp('ERROR IN THE BETA CALCULATION FALSE POSITION METHOD')
-%         end     
-%     end
 end
 
 

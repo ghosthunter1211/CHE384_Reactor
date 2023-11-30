@@ -14,15 +14,21 @@ z=[0.4 0.3 0.3;
 
 step=0;
 mL=zeros(size(T,1)*size(z,1), 1);
-mG=mL;
-
-for Temp=1:size(T, 1)
-    for Comp=1:size(z, 1)
+mG=mL; x=mL; y=mL;
+for Comp=1:size(z, 1)
+    for Temp=1:size(T, 1)
         step=step+1;
-        [mL(step), mG(step)]=composite(z(Comp, :), 5, T(Temp, :));
+        [y(step, 1:3), x(step, 1:3), mL(step), mG(step)]=composite(z(Comp, :), 5, T(Temp, :));
         Tstack(step)={T(Temp, :)};
         Cstack(step)={z(Comp, :)};
+        xx(step, 1)={x(step, :)};
+        yy(step, 1)={y(step, :)};
     end
 end
 
-TAB=table(Tstack', Cstack', mL, mG);
+TAB=table(Tstack', Cstack', xx, yy, mL, mG);
+plot(1:length(mL), mL)
+hold on
+plot(1:length(mG), mG)
+legend('mL', 'mG')
+hold off

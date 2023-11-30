@@ -56,6 +56,7 @@ function [pressure, antConst]=Antoine(Temp, Species, display)
         plot(T,P(T), "Color", "r", "LineWidth", 1)
         scatter(Temp, pressure, 'filled', 'black')
         legend('Actual', 'Predicted', 'Prediction')
+        xlabel('Temperature (C)'); ylabel('Partial Pressure (atm)');
         hold off
     end
 

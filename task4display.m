@@ -15,9 +15,13 @@ close=length(M);
 
 TAB=table(M', x);
 subplot(1,3,1)
-plot(1:half, M(1:half))
+plot(80:134, M(1:half))
 hold on
-plot(1:half, M((half+1):close));
+plot(80:134, M((half+1):close));
+legend('Case 1', 'Case 2')
+title('Molar Output Comparison')
+xlabel('Temperature (C)')
+ylabel('Molar Output')
 hold off
 
 subplot(1,3,2)
@@ -26,6 +30,9 @@ hold on
 plot(80:134, x(1:half, 2))
 plot(80:134, x(1:half, 3))
 legend('A', 'B', 'C')
+title('Case 1 Composition')
+xlabel('Temperature (C)')
+ylabel('Composition')
 hold off
 
 subplot(1,3,3)
@@ -34,4 +41,7 @@ hold on
 plot(80:134, x((half+1):close, 2))
 plot(80:134, x((half+1):close, 3))
 legend('A', 'B', 'C')
+title('Case 2 Composition')
+xlabel('Temperature (C)')
+ylabel('Composition')
 hold off
